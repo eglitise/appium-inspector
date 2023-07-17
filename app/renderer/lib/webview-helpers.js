@@ -1,5 +1,5 @@
-import {load} from 'cheerio';
-import {parseDocument} from 'htmlparser2';
+import { DOMParser, XMLSerializer } from '@xmldom/xmldom';
+import { parse } from 'node-html-parser';
 
 /**
  * JS code that is executed in the webview to determine the status+address bar height
@@ -76,35 +76,32 @@ export function parseSource (source) {
     return source;
   }
 
-  const dom = parseDocument(source);
-  const $ = load(dom);
+  const root = parse(source);
 
   // Remove the head and the scripts
-  const head = $('head');
-  head.remove();
-  const scripts = $('script');
-  scripts.remove();
+  root.querySelectorAll('head').forEach((node) => {
+    node.remove();
+  });
+  root.querySelectorAll('script').forEach((node) => {
+    node.remove();
+  });
 
   // Clean the source
-  $('*')
-    // remove all existing width height or x/y attributes
-    .removeAttr('width')
-    .removeAttr('height')
-    .removeAttr('x')
-    .removeAttr('y')
-    // remove all `data-appium-inspector-` prefixes so only the width|height|x|y are there
-    .each(function () {
-      const $el = $(this);
-
-      ['width', 'height', 'x', 'y'].forEach((rectAttr) => {
-        if ($el.attr(`data-appium-inspector-${rectAttr}`)) {
-          $el.attr(rectAttr, $el.attr(`data-appium-inspector-${rectAttr}`));
-
-          /* remove the old attribute */
-          $el.removeAttr(`data-appium-inspector-${rectAttr}`);
-        }
-      });
+  root.querySelectorAll('*').forEach((node) => {
+    // replace any default width|height|x|y values with the ones with prefix `data-appium-inspector-`
+    // for elements missing attributes with this prefix, simply remove the default values
+    ['width', 'height', 'x', 'y'].forEach((rectAttr) => {
+      if (node.getAttribute(`data-appium-inspector-${rectAttr}`)) {
+        node.setAttribute(rectAttr, node.getAttribute(`data-appium-inspector-${rectAttr}`));
+        node.removeAttribute(`data-appium-inspector-${rectAttr}`);
+      } else {
+        node.removeAttribute(rectAttr);
+      }
     });
+  });
 
-  return $.xml();
+  // pass through xmldom to autocorrect invalid DOM (node-html-parser does not do this)
+  const rootXml = new DOMParser().parseFromString(root.toString());
+  const rootXmlString = new XMLSerializer().serializeToString(rootXml);
+  return rootXmlString;
 }
