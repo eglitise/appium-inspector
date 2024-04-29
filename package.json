@@ -45,6 +45,7 @@
     "start": "cross-env RUNNING_LOCALLY=true electron ./",
     "start:dev": "cross-env RUNNING_LOCALLY=true FORCE_NO_WRONG_FOLDER=true NODE_ENV=development electron --inspect ./",
     "dev": "npm run build:dev:main && npm run build:dev:renderer && cross-env NODE_ENV=development concurrently --kill-others npm:start:dev npm:watch:main npm:watch:renderer",
+    "dev:browser": "vite",
     "clean": "npm run clean:electron && npm run clean:browser && npm run clean:npm",
     "clean:electron": "rimraf dist/ && rimraf .cache",
     "clean:browser": "rimraf dist-browser/ && rimraf .cache",
@@ -127,6 +128,7 @@
     "@babel/preset-env": "7.24.4",
     "@babel/preset-react": "7.24.1",
     "@babel/register": "7.23.7",
+    "@vitejs/plugin-react": "4.2.1",
     "asyncbox": "3.0.0",
     "chai": "4.4.1",
     "chai-as-promised": "7.1.1",
@@ -138,6 +140,7 @@
     "electron-builder": "24.13.3",
     "electron-debug": "3.2.0",
     "electron-extension-installer": "1.2.0",
+    "electron-vite": "2.2.0",
     "eslint": "8.57.0",
     "eslint-plugin-import": "2.29.1",
     "eslint-plugin-mocha": "10.4.3",
@@ -156,7 +159,8 @@
     "redux-logger": "3.0.6",
     "rimraf": "5.0.5",
     "sinon": "17.0.1",
-    "spectron": "15.0.0"
+    "spectron": "15.0.0",
+    "vite": "5.2.10"
   },
   "devEngines": {
     "node": ">=18.x",
