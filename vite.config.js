@@ -11,6 +11,12 @@ export default defineConfig({
       },
     },
   },
+  define: {
+    'process.env': process.env
+  },
   root: 'app/renderer',
-  plugins: [react()]
+  plugins: [react()],
+  server: {
+    port: 1234
+  }
 });

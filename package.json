@@ -45,7 +45,7 @@
     "start": "cross-env RUNNING_LOCALLY=true electron ./",
     "start:dev": "cross-env RUNNING_LOCALLY=true FORCE_NO_WRONG_FOLDER=true NODE_ENV=development electron --inspect ./",
     "dev": "npm run build:dev:main && npm run build:dev:renderer && cross-env NODE_ENV=development concurrently --kill-others npm:start:dev npm:watch:main npm:watch:renderer",
-    "dev:browser": "vite",
+    "dev:browser": "cross-env BUILD_BROWSER=1 NODE_ENV=development vite",
     "clean": "npm run clean:electron && npm run clean:browser && npm run clean:npm",
     "clean:electron": "rimraf dist/ && rimraf .cache",
     "clean:browser": "rimraf dist-browser/ && rimraf .cache",
