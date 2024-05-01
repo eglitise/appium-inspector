@@ -1,9 +1,9 @@
 import React from 'react';
 import {createRoot} from 'react-dom/client';
 
-import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
-import Root from './containers/Root';
-import store from './store';
+import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary.jsx';
+import Root from './containers/Root.jsx';
+import store from './store.js';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -16,7 +16,7 @@ root.render(
 
 if (module.hot) {
   module.hot.accept('./containers/Root', () => {
-    const NextRoot = require('./containers/Root').default;
+    const NextRoot = require('./containers/Root.jsx').default;
     root.render(
       <ErrorBoundary>
         <NextRoot store={store} />
