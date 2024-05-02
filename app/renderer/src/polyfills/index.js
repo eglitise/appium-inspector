@@ -33,7 +33,7 @@ if (buildForBrowser()) {
     i18NextBackendOptions,
     fs,
     util,
-  } = require('./browser'));
+  } = await import('./browser'));
 } else {
   ({
     log,

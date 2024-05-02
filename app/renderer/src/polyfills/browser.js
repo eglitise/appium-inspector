@@ -49,7 +49,7 @@ const i18NextBackendOptions = {
   backendOptions: [
     {},
     {
-      loadPath: './{{lng}}/{{ns}}.json',
+      loadPath: 'src/assets/locales/{{lng}}/{{ns}}.json',
     },
   ],
 };
