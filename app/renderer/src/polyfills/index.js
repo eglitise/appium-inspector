@@ -1,53 +1,67 @@
-let log,
-  settings,
-  clipboard,
-  shell,
-  remote,
-  ipcRenderer,
-  i18NextBackend,
-  i18NextBackendOptions,
-  fs,
-  util;
+// let log,
+//   settings,
+//   clipboard,
+//   shell,
+//   remote,
+//   ipcRenderer,
+//   i18NextBackend,
+//   i18NextBackendOptions,
+//   fs,
+//   util;
 
-function buildForBrowser() {
-  if (process.env.BUILD_BROWSER) {
-    return true;
-  }
+// function buildForBrowser() {
+//   if (process.env.BUILD_BROWSER) {
+//     return true;
+//   }
 
-  if (typeof navigator !== 'undefined' && !/electron/i.test(navigator.userAgent)) {
-    return true;
-  }
+//   if (typeof navigator !== 'undefined' && !/electron/i.test(navigator.userAgent)) {
+//     return true;
+//   }
 
-  return false;
-}
+//   return false;
+// }
 
-if (buildForBrowser()) {
-  ({
-    log,
-    settings,
-    clipboard,
-    shell,
-    remote,
-    ipcRenderer,
-    i18NextBackend,
-    i18NextBackendOptions,
-    fs,
-    util,
-  } = await import('./browser'));
-} else {
-  ({
-    log,
-    settings,
-    clipboard,
-    shell,
-    remote,
-    ipcRenderer,
-    i18NextBackend,
-    i18NextBackendOptions,
-    fs,
-    util,
-  } = require('./electron'));
-}
+// if (buildForBrowser()) {
+//   ({
+//     log,
+//     settings,
+//     clipboard,
+//     shell,
+//     remote,
+//     ipcRenderer,
+//     i18NextBackend,
+//     i18NextBackendOptions,
+//     fs,
+//     util,
+//   } = await import('./browser'));
+// } else {
+//   ({
+//     log,
+//     settings,
+//     clipboard,
+//     shell,
+//     remote,
+//     ipcRenderer,
+//     i18NextBackend,
+//     i18NextBackendOptions,
+//     fs,
+//     util,
+//   } = require('./electron'));
+// }
+
+import {clipboard, ipcRenderer, remote, shell} from 'electron';
+import log from 'electron-log';
+import settings from 'electron-settings';
+import fs from 'fs';
+import i18NextBackend from 'i18next-fs-backend';
+import path from 'path';
+import util from 'util';
+
+const i18NextBackendOptions = {
+  loadPath: path.join(__dirname, '{{lng}}/{{ns}}.json'),
+  addPath: path.join(__dirname, '{{lng}}/{{ns}}.json'),
+  jsonIndent: 2,
+};
 
 export {
   log,

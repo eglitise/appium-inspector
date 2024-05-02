@@ -23,8 +23,8 @@ app.on('ready', async () => {
   }
 
   setupMainWindow({
-    mainUrl: `file://${__dirname}/index.html`,
-    splashUrl: `file://${__dirname}/splash.html`,
+    mainUrl: process.env.ELECTRON_RENDERER_URL,
+    splashUrl: `file://${__dirname}/../renderer/splash.html`,
     isDev,
   });
 });

@@ -19,7 +19,7 @@
   ],
   "assetsPath": "app/renderer/src/assets/locales",
   "homepage": "https://github.com/appium/appium-inspector",
-  "main": "dist/main.js",
+  "main": "./out/main/main.js",
   "scripts": {
     "test": "npm run test:lint && npm run test:unit && npm run test:integration",
     "test:lint": "eslint .",
@@ -46,6 +46,7 @@
     "start:dev": "cross-env RUNNING_LOCALLY=true FORCE_NO_WRONG_FOLDER=true NODE_ENV=development electron --inspect ./",
     "dev": "npm run build:dev:main && npm run build:dev:renderer && cross-env NODE_ENV=development concurrently --kill-others npm:start:dev npm:watch:main npm:watch:renderer",
     "dev:browser": "cross-env BUILD_BROWSER=1 NODE_ENV=development vite",
+    "dev:electron": "cross-env NODE_ENV=development electron-vite dev -w",
     "clean": "npm run clean:electron && npm run clean:browser && npm run clean:npm",
     "clean:electron": "rimraf dist/ && rimraf .cache",
     "clean:browser": "rimraf dist-browser/ && rimraf .cache",

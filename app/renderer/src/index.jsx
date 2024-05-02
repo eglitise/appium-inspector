@@ -14,13 +14,13 @@ root.render(
   </ErrorBoundary>,
 );
 
-if (module.hot) {
-  module.hot.accept('./Root', () => {
-    const NextRoot = require('./Root.jsx').default;
-    root.render(
-      <ErrorBoundary>
-        <NextRoot store={store} />
-      </ErrorBoundary>,
-    );
-  });
-}
+// if (module.hot) {
+//   module.hot.accept('./Root', () => {
+//     const NextRoot = require('./Root.jsx').default;
+//     root.render(
+//       <ErrorBoundary>
+//         <NextRoot store={store} />
+//       </ErrorBoundary>,
+//     );
+//   });
+// }
