@@ -2,6 +2,7 @@ node_modules
 
 dist
 dist-browser
+out
 release
 site
 main.map
