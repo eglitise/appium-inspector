@@ -1,4 +1,5 @@
 import {BrowserWindow, Menu, dialog, ipcMain, webContents} from 'electron';
+import {join} from 'path';
 
 import i18n from '../configs/i18next.config';
 import {openFilePath} from './main';
@@ -27,6 +28,8 @@ function buildSessionWindow() {
     minHeight: 710,
     titleBarStyle: 'hiddenInset',
     webPreferences: {
+      preload: join(__dirname, '../preload/preload.js'),
+      sandbox: false,
       nodeIntegration: true,
       contextIsolation: false,
       enableRemoteModule: true,
@@ -97,7 +100,7 @@ export function setupMainWindow({splashUrl, mainUrl, isDev}) {
 }
 
 export function launchNewSessionWindow() {
-  const url = `file://${__dirname}/index.html`;
+  const url = process.env.ELECTRON_RENDERER_URL;
   const win = buildSessionWindow();
   win.loadURL(url);
   win.show();

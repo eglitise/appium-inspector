@@ -1,4 +1,5 @@
 import {app} from 'electron';
+import {join} from 'path';
 
 import {installExtensions} from './debug';
 import {getAppiumSessionFilePath} from './helpers';
@@ -24,7 +25,7 @@ app.on('ready', async () => {
 
   setupMainWindow({
     mainUrl: process.env.ELECTRON_RENDERER_URL,
-    splashUrl: `file://${__dirname}/../renderer/splash.html`,
+    splashUrl: join(__dirname, '../../app/renderer/splash.html'),
     isDev,
   });
 });
