@@ -1,4 +1,4 @@
-import {clipboard, ipcRenderer} from 'electron';
+import {ipcRenderer} from 'electron';
 import fs from 'fs';
 import i18NextBackend from 'i18next-fs-backend';
 import {join} from 'path';
@@ -17,6 +17,7 @@ const i18NextBackendOptions = {
 };
 
 const electron = {
+  copyToClipboard: (text) => window.electronMethods.copyToClipboard(text),
   openLink: (link) => window.electronMethods.openLink(link),
 };
 
@@ -39,6 +40,6 @@ class ElectronSettings {
 }
 
 const settings = new ElectronSettings();
-const {openLink} = electron;
+const {copyToClipboard, openLink} = electron;
 
-export {settings, clipboard, openLink, ipcRenderer, i18NextBackend, i18NextBackendOptions, fs, util};
+export {settings, copyToClipboard, openLink, ipcRenderer, i18NextBackend, i18NextBackendOptions, fs, util};

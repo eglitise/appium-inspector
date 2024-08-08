@@ -8,9 +8,7 @@ const localesPath =
     : '../locales'; // from 'dist-browser/assets/'
 
 const browser = {
-  clipboard: {
-    writeText: (text) => navigator.clipboard.writeText(text),
-  },
+  copyToClipboard: (text) => navigator.clipboard.writeText(text),
   openLink: (url) => window.open(url, ''),
   ipcRenderer: {
     on: (evt) => {
@@ -40,7 +38,7 @@ class BrowserSettings {
 }
 
 const settings = new BrowserSettings();
-const {clipboard, openLink, ipcRenderer, fs, util} = browser;
+const {copyToClipboard, openLink, ipcRenderer, fs, util} = browser;
 const i18NextBackendOptions = {
   backends: [LocalStorageBackend, HttpApi],
   backendOptions: [
@@ -51,4 +49,4 @@ const i18NextBackendOptions = {
   ],
 };
 
-export {settings, clipboard, openLink, ipcRenderer, i18NextBackend, i18NextBackendOptions, fs, util};
+export {settings, copyToClipboard, openLink, ipcRenderer, i18NextBackend, i18NextBackendOptions, fs, util};

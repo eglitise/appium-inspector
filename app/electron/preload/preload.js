@@ -13,5 +13,7 @@ contextBridge.exposeInMainWorld('settings', {
 });
 
 contextBridge.exposeInMainWorld('electronMethods', {
+  copyToClipboard: (text) => ipcRenderer.send('electron-copyToClipboard', text),
+
   openLink: (link) => ipcRenderer.send('electron-openLink', link),
 });

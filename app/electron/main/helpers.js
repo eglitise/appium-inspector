@@ -1,4 +1,4 @@
-import {ipcMain, shell} from 'electron';
+import {clipboard, ipcMain, shell} from 'electron';
 import settings from 'electron-settings';
 
 import i18n from './i18next';
@@ -11,6 +11,7 @@ export function setupIPCListeners () {
   ipcMain.handle('settings-get', async (_evt, key) => await settings.get(key));
   ipcMain.handle('settings-getSync', (_evt, key) => settings.getSync(key));
   ipcMain.on('electron-openLink', (_evt, link) => shell.openExternal(link));
+  ipcMain.on('electron-copyToClipboard', (_evt, text) => clipboard.writeText(text));
 }
 
 export function getAppiumSessionFilePath(argv, isPackaged) {
