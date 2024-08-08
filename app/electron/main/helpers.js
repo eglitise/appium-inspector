@@ -1,6 +1,16 @@
+import {ipcMain} from 'electron';
+import settings from 'electron-settings';
+
 import i18n from './i18next';
 
 export const isDev = process.env.NODE_ENV === 'development';
+
+export function setupIPCListeners () {
+  ipcMain.handle('settings-has', async (_evt, key) => await settings.has(key));
+  ipcMain.handle('settings-get', async (_evt, key) => await settings.get(key));
+  ipcMain.handle('settings-getSync', (_evt, key) => settings.getSync(key));
+  ipcMain.on('settings-set', (_evt, key, value) => settings.set(key, value));
+}
 
 export function getAppiumSessionFilePath(argv, isPackaged) {
   if (isDev) {

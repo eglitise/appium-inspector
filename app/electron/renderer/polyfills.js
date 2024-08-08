@@ -1,5 +1,4 @@
 import {clipboard, ipcRenderer, shell} from 'electron';
-import settings from 'electron-settings';
 import fs from 'fs';
 import i18NextBackend from 'i18next-fs-backend';
 import {join} from 'path';
@@ -16,5 +15,25 @@ const i18NextBackendOptions = {
   addPath: translationFilePath,
   jsonIndent: 2,
 };
+
+class ElectronSettings {
+  async has(key) {
+    return await window.settings.has(key);
+  }
+
+  set(key, val) {
+    window.settings.set(key, val);
+  }
+
+  async get(key) {
+    return await window.settings.get(key);
+  }
+
+  getSync(key) {
+    return window.settings.getSync(key);
+  }
+}
+
+const settings = new ElectronSettings();
 
 export {settings, clipboard, shell, ipcRenderer, i18NextBackend, i18NextBackendOptions, fs, util};
