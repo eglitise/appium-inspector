@@ -13,7 +13,7 @@ import React, {useRef} from 'react';
 import {ALERT, ROW} from '../../constants/antd-types';
 import {LINKS} from '../../constants/common';
 import {NATIVE_APP} from '../../constants/session-inspector';
-import {clipboard, shell} from '../../polyfills';
+import {clipboard, openLink} from '../../polyfills';
 import styles from './Inspector.module.css';
 
 /**
@@ -58,7 +58,7 @@ const SelectedElement = (props) => {
     <span>
       {name}
       <strong>
-        <a onClick={(e) => e.preventDefault() || shell.openExternal(docsLink)}>
+        <a onClick={(e) => e.preventDefault() || openLink(docsLink)}>
           <br />
           (docs)
         </a>

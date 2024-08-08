@@ -11,9 +11,7 @@ const browser = {
   clipboard: {
     writeText: (text) => navigator.clipboard.writeText(text),
   },
-  shell: {
-    openExternal: (url) => window.open(url, ''),
-  },
+  openLink: (url) => window.open(url, ''),
   ipcRenderer: {
     on: (evt) => {
       console.warn(`Cannot listen for IPC event ${evt} in browser context`); // eslint-disable-line no-console
@@ -42,7 +40,7 @@ class BrowserSettings {
 }
 
 const settings = new BrowserSettings();
-const {clipboard, shell, ipcRenderer, fs, util} = browser;
+const {clipboard, openLink, ipcRenderer, fs, util} = browser;
 const i18NextBackendOptions = {
   backends: [LocalStorageBackend, HttpApi],
   backendOptions: [
@@ -53,4 +51,4 @@ const i18NextBackendOptions = {
   ],
 };
 
-export {settings, clipboard, shell, ipcRenderer, i18NextBackend, i18NextBackendOptions, fs, util};
+export {settings, clipboard, openLink, ipcRenderer, i18NextBackend, i18NextBackendOptions, fs, util};

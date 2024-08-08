@@ -11,3 +11,7 @@ contextBridge.exposeInMainWorld('settings', {
     ipcRenderer.send('settings-set', key, val);
   },
 });
+
+contextBridge.exposeInMainWorld('electronMethods', {
+  openLink: (link) => ipcRenderer.send('electron-openLink', link),
+});
