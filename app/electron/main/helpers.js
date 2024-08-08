@@ -7,9 +7,9 @@ export const isDev = process.env.NODE_ENV === 'development';
 
 export function setupIPCListeners () {
   ipcMain.handle('settings-has', async (_evt, key) => await settings.has(key));
+  ipcMain.on('settings-set', async (_evt, key, value) => await settings.set(key, value));
   ipcMain.handle('settings-get', async (_evt, key) => await settings.get(key));
   ipcMain.handle('settings-getSync', (_evt, key) => settings.getSync(key));
-  ipcMain.on('settings-set', (_evt, key, value) => settings.set(key, value));
 }
 
 export function getAppiumSessionFilePath(argv, isPackaged) {

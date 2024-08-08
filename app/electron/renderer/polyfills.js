@@ -21,8 +21,8 @@ class ElectronSettings {
     return await window.settings.has(key);
   }
 
-  set(key, val) {
-    window.settings.set(key, val);
+  async set(key, val) {
+    await window.settings.set(key, val);
   }
 
   async get(key) {
