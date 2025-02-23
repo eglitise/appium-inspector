@@ -1,7 +1,7 @@
 import {notification} from 'antd';
 import _ from 'lodash';
 import moment from 'moment';
-import {Web2Driver} from 'web2driver';
+import webdriver from 'webdriver';
 
 import {
   SAVED_SESSIONS,
@@ -583,10 +583,17 @@ export function newSession(originalCaps, attachSessId = null) {
         const platformName = attachedSessionCaps.platformName || attachedSessionCaps.platform;
         serverOpts.isIOS = Boolean(platformName.match(/iOS/i));
         serverOpts.isAndroid = Boolean(platformName.match(/Android/i));
-        driver = await Web2Driver.attachToSession(attachSessId, serverOpts, attachedSessionCaps);
+        const wdOptions = {
+          sessionId: attachSessId,
+          isW3C: true,
+          capabilities: attachedSessionCaps,
+          ...serverOpts,
+        };
+        driver = webdriver.attachToSession(wdOptions);
         driver._isAttachedSession = true;
       } else {
-        driver = await Web2Driver.remote(serverOpts, sessionCaps);
+        const wdOptions = {capabilities: sessionCaps, ...serverOpts};
+        driver = await webdriver.newSession(wdOptions);
       }
     } catch (err) {
       showError(err, {secs: 0, serverUrl});

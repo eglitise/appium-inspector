@@ -221,9 +221,7 @@ export default class AppiumClient {
   async getWindowUpdate() {
     let windowSize, windowSizeError;
     const {
-      client: {
-        capabilities: {deviceScreenSize, platformName, automationName},
-      },
+      capabilities: {deviceScreenSize, platformName, automationName},
     } = this.driver;
     try {
       windowSize = await this.driver.getWindowRect();
@@ -273,7 +271,7 @@ export default class AppiumClient {
       await this.driver.switchContext(NATIVE_APP);
     }
 
-    const isAndroid = this.driver.client.isAndroid;
+    const isAndroid = this.driver.isAndroid;
 
     // Get all available contexts (or the error, if one appears)
     try {
@@ -310,12 +308,12 @@ export default class AppiumClient {
             } catch {}
           }
         }
-      } else if (this.driver.client.isIOS) {
+      } else if (this.driver.isIOS) {
         let browserName = '';
         try {
           // emulate optional chaining of deeply embedded property which might not exist using
           // a try catch
-          browserName = this.driver.client.capabilities.browserName.toLowerCase();
+          browserName = this.driver.capabilities.browserName.toLowerCase();
         } catch {}
         const isSafari = browserName === 'safari';
         if (isSafari) {
