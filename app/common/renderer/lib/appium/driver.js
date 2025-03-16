@@ -61,7 +61,17 @@ export default class Web2Driver {
     if (!sessionId) {
       throw new Error("Can't attach to a session without a session id");
     }
-    const params = {sessionId, isW3C, protocol, hostname, port, path, capabilities, ...otherParams};
+    const params = {
+      sessionId,
+      isW3C,
+      protocol,
+      hostname,
+      port,
+      path,
+      capabilities,
+      logLevel,
+      ...otherParams,
+    };
     const sessionClient = await WDCore.attachToSession(params);
     return new Session(sessionClient);
   }
