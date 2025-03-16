@@ -24,11 +24,6 @@
       "enabled": false
     },
     {
-      "matchPackageNames": ["web2driver"],
-      "matchUpdateTypes": ["minor", "patch"],
-      "enabled": false
-    },
-    {
       "matchPackageNames": ["appium", "@appium/**", "!@appium/base-plugin"],
       "groupName": "Appium-related packages",
       "groupSlug": "appium"

@@ -1,6 +1,5 @@
 import {notification} from 'antd';
 import _ from 'lodash';
-import {Web2Driver} from 'web2driver';
 
 import {
   SAVED_SESSIONS,
@@ -12,6 +11,7 @@ import {
 import {SERVER_TYPES, SESSION_BUILDER_TABS} from '../constants/session-builder';
 import {APP_MODE} from '../constants/session-inspector';
 import i18n from '../i18next';
+import Web2Driver from '../lib/appium/driver.js';
 import {VENDOR_MAP} from '../lib/vendor/map.js';
 import {getSetting, ipcRenderer, setSetting} from '../polyfills';
 import {fetchSessionInformation, formatSeleniumGridSessions} from '../utils/attaching-to-session';
