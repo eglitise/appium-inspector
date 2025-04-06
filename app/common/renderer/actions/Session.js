@@ -369,7 +369,7 @@ export function newSession(originalCaps, attachSessId = null) {
 
     // Build mjpegScreenshotUrl if mjpegServerPort in session capabilities
     if (!mjpegScreenshotUrl && mjpegScreenshotPort) {
-      mjpegScreenshotUrl = `${protocol}://${host}:${mjpegScreenshotPort}`;
+      mjpegScreenshotUrl = `${protocol}://${DEFAULT_SERVER_HOST}:${mjpegScreenshotPort}`;
     }
 
     const action = setSessionDetails({
