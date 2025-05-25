@@ -146,7 +146,7 @@ const HeaderButtons = (props) => {
             dropdownMatchSelectWidth={false}
             onChange={(value) => {
               setContext(value);
-              applyClientMethod({methodName: 'switchContext', args: [value]});
+              applyClientMethod({methodName: 'switchAppiumContext', args: [value]});
             }}
           >
             {contexts.map(({id, title}) => (
