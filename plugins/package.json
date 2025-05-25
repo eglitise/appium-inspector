@@ -1,6 +1,6 @@
 {
   "name": "appium-inspector-plugin",
-  "version": "2024.12.1-beta.13",
+  "version": "2025.3.1",
   "description": "An app inspector for use with an Appium server",
   "repository": {
     "type": "git",
@@ -27,7 +27,7 @@
     "./package.json": "./package.json"
   },
   "peerDependencies": {
-    "appium": "^2.0.0"
+    "appium": "^2.0.0 || ^3.0.0-beta.0"
   },
   "files": [
     "index.mjs",
@@ -36,7 +36,7 @@
     "README.md"
   ],
   "dependencies": {
-    "@appium/base-plugin": "2.3.4"
+    "@appium/base-plugin": "2.3.6"
   },
   "devDependencies": {},
   "engines": {
