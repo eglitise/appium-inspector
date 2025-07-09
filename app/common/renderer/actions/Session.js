@@ -1,4 +1,3 @@
-import {notification} from 'antd';
 import _ from 'lodash';
 
 import {
@@ -17,6 +16,7 @@ import {getSetting, ipcRenderer, setSetting} from '../polyfills';
 import {fetchSessionInformation, formatSeleniumGridSessions} from '../utils/attaching-to-session';
 import {downloadFile, parseSessionFileContents} from '../utils/file-handling';
 import {log} from '../utils/logger';
+import {notification} from '../utils/notification';
 import {addVendorPrefixes} from '../utils/other';
 import {quitSession, setSessionDetails} from './Inspector';
 
@@ -332,7 +332,7 @@ export function newSession(originalCaps, attachSessId = null) {
         driver = await Web2Driver.remote(serverOpts, sessionCaps);
       }
     } catch (err) {
-      showError(err, {secs: 0, serverUrl});
+      showError(err, {secs: 0, url: serverUrl});
       return false;
     } finally {
       dispatch({type: NEW_SESSION_DONE});

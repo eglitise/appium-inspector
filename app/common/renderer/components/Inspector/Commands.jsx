@@ -1,20 +1,9 @@
-import {
-  Alert,
-  Button,
-  Col,
-  Collapse,
-  Input,
-  Modal,
-  notification,
-  Row,
-  Space,
-  Switch,
-  Tooltip,
-} from 'antd';
+import {Alert, Button, Col, Collapse, Input, Modal, Row, Space, Switch, Tooltip} from 'antd';
 import _ from 'lodash';
 
 import {ALERT, INPUT} from '../../constants/antd-types';
 import {COMMAND_ARG_TYPES, COMMAND_DEFINITIONS, TOP_LEVEL_COMMANDS} from '../../constants/commands';
+import {notification} from '../../utils/notification';
 import InspectorStyles from './Inspector.module.css';
 
 const Commands = (props) => {
@@ -142,9 +131,11 @@ const Commands = (props) => {
             </Col>
           ))}
         </Row>
-        <Collapse>
-          {_.toPairs(COMMAND_DEFINITIONS).map(([commandGroup, commands]) => (
-            <Collapse.Panel header={t(commandGroup)} key={commandGroup}>
+        <Collapse
+          items={_.toPairs(COMMAND_DEFINITIONS).map(([commandGroup, commands]) => ({
+            key: commandGroup,
+            label: t(commandGroup),
+            children: (
               <Row>
                 {_.toPairs(commands).map(
                   ([commandName, command], index) =>
@@ -167,9 +158,9 @@ const Commands = (props) => {
                     ),
                 )}
               </Row>
-            </Collapse.Panel>
-          ))}
-        </Collapse>
+            ),
+          }))}
+        />
       </Space>
       {!!pendingCommand && (
         <Modal
