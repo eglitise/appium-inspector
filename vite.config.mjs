@@ -1,7 +1,6 @@
 import react from '@vitejs/plugin-react';
 import {join} from 'path';
 import {defineConfig} from 'vite';
-import {nodePolyfills} from 'vite-plugin-node-polyfills';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -15,7 +14,7 @@ export default defineConfig({
   define: {
     'process.env': process.env,
   },
-  plugins: [react(), nodePolyfills({include: ['buffer', 'events']})],
+  plugins: [react()],
   resolve: {
     alias: {
       '#local-polyfills': join(__dirname, 'app', 'web', 'polyfills'),
