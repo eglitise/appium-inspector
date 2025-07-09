@@ -69,7 +69,7 @@
   "dependencies": {
     "@ant-design/pro-components": "2.8.9",
     "@reduxjs/toolkit": "2.8.2",
-    "@wdio/protocols": "9.15.0",
+    "@wdio/protocols": "9.16.2",
     "@xmldom/xmldom": "0.9.8",
     "antd": "5.26.4",
     "axios": "1.10.0",
@@ -91,7 +91,7 @@
     "react-icons": "5.5.0",
     "react-redux": "9.2.0",
     "react-router": "7.6.3",
-    "webdriver": "9.15.0",
+    "webdriver": "9.17.0",
     "xpath": "0.0.34"
   },
   "devDependencies": {
@@ -116,7 +116,7 @@
     "rimraf": "6.0.1",
     "vite": "7.0.2",
     "vite-plugin-electron-renderer": "0.14.6",
-    "vite-plugin-node-polyfills": "0.23.0",
+    "vite-plugin-node-polyfills": "0.24.0",
     "vitest": "3.2.4"
   },
   "engines": {
