@@ -17,6 +17,11 @@
       "enabled": false
     },
     {
+      "matchPackageNames": ["webdriver", "@wdio/protocols"],
+      "groupName": "WebdriverIO-related packages",
+      "groupSlug": "webdriverio"
+    },
+    {
       "matchPackageNames": ["appium", "@appium/**", "!@appium/base-plugin"],
       "groupName": "Appium-related packages",
       "groupSlug": "appium"
