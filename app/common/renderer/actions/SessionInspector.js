@@ -273,12 +273,14 @@ export function applyClientMethod(params) {
     }
     dispatch({type: METHOD_CALL_DONE});
 
-    if (source) {
+    // if skipRefresh was true, no update was triggered and windowSize will not exist,
+    // but if only skipSource or skipScreenshot was true, windowSize will exist
+    if (windowSize) {
       dispatch({
         type: SET_SOURCE_AND_SCREENSHOT,
         contexts,
         currentContext,
-        sourceJSON: xmlToJSON(source),
+        sourceJSON: source ? xmlToJSON(source) : null,
         sourceXML: source,
         screenshot,
         windowSize,
@@ -872,13 +874,13 @@ export function callClientMethod(params) {
     params.appMode = appMode;
     params.autoSessionRestart = autoSessionRestart;
 
-    // don't retrieve screenshot if we're already using the mjpeg stream
-    if (isUsingMjpegMode) {
+    // don't retrieve screenshot if we're in MJPEG mode
+    if (params.skipRefresh || isUsingMjpegMode) {
       params.skipScreenshot = true;
     }
-
-    if (!isSourceRefreshOn) {
-      params.skipRefresh = true;
+    // don't retrieve source if we have paused its refresh
+    if (params.skipRefresh || !isSourceRefreshOn) {
+      params.skipSource = true;
     }
 
     log.info(`Calling client method with params:`);
@@ -907,7 +909,8 @@ export function callClientMethod(params) {
 export function executeDriverCommand(params) {
   return async (getState) => {
     const {driver} = getState().inspector;
-    params.skipRefresh = true;
+    params.skipSource = true;
+    params.skipScreenshot = true;
     const inspectorDriver = InspectorDriver.instance(driver);
     return await inspectorDriver.run(params);
   };

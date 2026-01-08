@@ -5,6 +5,7 @@ import {
   DownloadOutlined,
   FileTextOutlined,
   NodeCollapseOutlined,
+  PauseCircleOutlined,
   SearchOutlined,
 } from '@ant-design/icons';
 import {Button, Card, Input, Row, Space, Spin, Tooltip, Tree} from 'antd';
@@ -36,8 +37,8 @@ const Source = (props) => {
     selectedElement = {},
     showSourceAttrs,
     methodCallInProgress,
-    isUsingMjpegMode,
     isSourceRefreshOn,
+    toggleRefreshingState,
     sourceXML,
     toggleShowAttributes,
     t,
@@ -197,11 +198,7 @@ const Source = (props) => {
       <div id="sourceContainer" className={styles.treeContainer} tabIndex="0">
         {!sourceJSON && !sourceError && <i>{t('Gathering initial app source…')}</i>}
         {sourceError && t('couldNotObtainSource', {errorMsg: JSON.stringify(sourceError)})}
-        {/* Show loading indicator in MJPEG mode if a method call is in progress and source refresh is on */}
-        <Spin
-          size="large"
-          spinning={!!methodCallInProgress && isUsingMjpegMode && isSourceRefreshOn}
-        >
+        <Spin size="large" spinning={!!methodCallInProgress && isSourceRefreshOn}>
           {/* Must switch to a new antd Tree component when there's changes to treeData  */}
           {treeData ? (
             <div className={styles.treeWrapper}>
@@ -235,6 +232,17 @@ const Source = (props) => {
                     <Tooltip title={t('Matching Elements')}>{matchingElements.length}</Tooltip>
                   </Space.Addon>
                 </Space.Compact>
+                <Tooltip
+                  title={
+                    isSourceRefreshOn ? t('Pause Refreshing Source') : t('Start Refreshing Source')
+                  }
+                >
+                  <Button
+                    icon={<PauseCircleOutlined />}
+                    onClick={toggleRefreshingState}
+                    type={isSourceRefreshOn ? BUTTON.DEFAULT : BUTTON.PRIMARY}
+                  />
+                </Tooltip>
               </Row>
               <Tree
                 defaultExpandAll={true}

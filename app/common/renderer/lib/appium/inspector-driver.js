@@ -57,8 +57,8 @@ export default class InspectorDriver {
       fetchArray = false, // Optional. Are we fetching an array of elements or just one?
       elementId, // Optional. Element being operated on
       args = [], // Optional. Arguments passed to method
-      skipRefresh = false, // Optional. Do we want the updated source and screenshot?
-      skipScreenshot = false, // Optional. Do we want to skip getting screenshot alone?
+      skipSource = false, // Optional. Do we want to skip getting the source?
+      skipScreenshot = false, // Optional. Do we want to skip getting the screenshot?
       appMode = APP_MODE.NATIVE, // Optional. Whether we're in a native or hybrid mode
     } = params;
 
@@ -90,7 +90,7 @@ export default class InspectorDriver {
           elementId,
           methodName,
           args,
-          skipRefresh,
+          skipSource,
           skipScreenshot,
           appMode,
         });
@@ -102,7 +102,7 @@ export default class InspectorDriver {
         res = await this.executeMethod({
           methodName,
           args,
-          skipRefresh,
+          skipSource,
           skipScreenshot,
           appMode,
         });
@@ -120,7 +120,7 @@ export default class InspectorDriver {
     return res;
   }
 
-  async executeMethod({elementId, methodName, args, skipRefresh, skipScreenshot, appMode}) {
+  async executeMethod({elementId, methodName, args, skipSource, skipScreenshot, appMode}) {
     let cachedEl;
     let res = {};
     if (!_.isArray(args) && !_.isUndefined(args)) {
@@ -161,7 +161,7 @@ export default class InspectorDriver {
       }
     }
 
-    const refreshUpdate = skipRefresh ? {} : await this.handleRefresh(skipScreenshot, appMode);
+    const refreshUpdate = await this.handleRefresh(skipSource, skipScreenshot, appMode);
 
     return {
       ...cachedEl,
@@ -170,13 +170,16 @@ export default class InspectorDriver {
     };
   }
 
-  async handleRefresh(skipScreenshot, appMode) {
+  async handleRefresh(skipSource, skipScreenshot, appMode) {
+    if (skipSource && skipScreenshot) {
+      return {};
+    }
     // Give the source/screenshot time to change
     await new Promise((resolve) => setTimeout(resolve, REFRESH_DELAY_MILLIS));
 
     const screenshotPromise = skipScreenshot ? {} : this.getScreenshotUpdate();
     const windowSizePromise = this.getWindowUpdate();
-    const sourcePromise = this.getSourceUpdate();
+    const sourcePromise = skipSource ? {} : this.getSourceUpdate();
     const [screenshotUpdate, windowSizeUpdate, sourceUpdate] = await Promise.all([
       screenshotPromise,
       windowSizePromise,

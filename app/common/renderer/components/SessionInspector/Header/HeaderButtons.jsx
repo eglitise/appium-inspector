@@ -4,8 +4,6 @@ import {
   ExclamationCircleOutlined,
   GlobalOutlined,
   InfoCircleOutlined,
-  PauseCircleOutlined,
-  PlayCircleOutlined,
   ReloadOutlined,
   SearchOutlined,
   VideoCameraOutlined,
@@ -25,9 +23,6 @@ const HeaderButtons = (props) => {
   const {
     selectAppMode,
     appMode,
-    isUsingMjpegMode,
-    isSourceRefreshOn,
-    toggleRefreshingState,
     isRecording,
     startRecording,
     pauseRecording,
@@ -174,24 +169,6 @@ const HeaderButtons = (props) => {
 
   const generalControls = (
     <Space.Compact>
-      {isUsingMjpegMode && !isSourceRefreshOn && (
-        <Tooltip title={t('Start Refreshing Source')}>
-          <Button
-            id="btnStartRefreshing"
-            icon={<PlayCircleOutlined />}
-            onClick={toggleRefreshingState}
-          />
-        </Tooltip>
-      )}
-      {isUsingMjpegMode && isSourceRefreshOn && (
-        <Tooltip title={t('Pause Refreshing Source')}>
-          <Button
-            id="btnPauseRefreshing"
-            icon={<PauseCircleOutlined />}
-            onClick={toggleRefreshingState}
-          />
-        </Tooltip>
-      )}
       <Tooltip title={t('refreshSource')}>
         <Button
           id="btnReload"
