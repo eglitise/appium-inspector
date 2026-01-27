@@ -17,6 +17,7 @@ import {LINKS} from '../../../constants/common.js';
 import {NATIVE_APP} from '../../../constants/session-inspector.js';
 import {copyToClipboard, openLink} from '../../../polyfills.js';
 import {downloadFile} from '../../../utils/file-handling.js';
+import {parseCoordinates} from '../../../utils/other.js';
 import inspectorStyles from '../SessionInspector.module.css';
 import styles from './Source.module.css';
 
@@ -189,6 +190,119 @@ const SelectedElement = (props) => {
     findDataSource = findElementsExecutionTimes;
   }
 
+  const actionBar = () => (
+    <span>
+      <Tooltip title={t('Copy Attributes to Clipboard')}>
+        <Button
+          type="text"
+          disabled={isDisabled}
+          id="btnCopyAttributes"
+          icon={<IconFiles size={18} />}
+          onClick={() => copyToClipboard(JSON.stringify(dataSource))}
+        />
+      </Tooltip>
+      <Tooltip title={t('Download Screenshot')}>
+        <Button
+          type="text"
+          disabled={isDisabled}
+          icon={<IconDownload size={18} />}
+          id="btnDownloadElemScreenshot"
+          onClick={() => downloadElementScreenshot(selectedElementId)}
+        />
+      </Tooltip>
+    </span>
+  );
+
+  const elementActions = () => (
+    <Row justify="center" type={ROW.FLEX} align="middle" className={styles.selectedElemActions}>
+      <Tooltip title={t('Tap')}>
+        <Button
+          disabled={isDisabled}
+          icon={<IconFocus2 size={18} />}
+          loading={tapButtonLoadingState}
+          id="btnTapElement"
+          onClick={() =>
+            applyClientMethod({methodName: 'elementClick', elementId: selectedElementId})
+          }
+        />
+      </Tooltip>
+      <Space.Compact className={styles.elementKeyInputActions}>
+        <Input
+          className={styles.elementKeyInput}
+          disabled={isDisabled}
+          placeholder={t('Enter Keys to Send')}
+          allowClear={true}
+          onChange={(e) => (sendKeysRef.current = e.target.value)}
+        />
+        <Tooltip title={t('Send Keys')}>
+          <Button
+            disabled={isDisabled}
+            id="btnSendKeysToElement"
+            icon={<IconSend2 size={18} />}
+            onClick={() =>
+              applyClientMethod({
+                methodName: 'elementSendKeys',
+                elementId: selectedElementId,
+                args: [sendKeysRef.current || ''],
+              })
+            }
+          />
+        </Tooltip>
+        <Tooltip title={t('Clear')}>
+          <Button
+            disabled={isDisabled}
+            id="btnClearElement"
+            icon={<IconEraser size={18} />}
+            onClick={() =>
+              applyClientMethod({methodName: 'elementClear', elementId: selectedElementId})
+            }
+          />
+        </Tooltip>
+      </Space.Compact>
+      <Tooltip title={t('Get Timing')}>
+        <Button
+          disabled={isDisabled}
+          id="btnGetTiming"
+          icon={<IconStopwatch size={18} />}
+          onClick={() => getFindElementsTimes(findDataSource)}
+        />
+      </Tooltip>
+    </Row>
+  );
+
+  const showBoxModel = () => {
+    const {x1, y1, x2, y2} = parseCoordinates(selectedElement);
+    const xMiddle = x1 + (x2 - x1) / 2;
+    const yMiddle = y1 + (y2 - y1) / 2;
+    const monoText = (text) => <span className={inspectorStyles.monoFont}>{text}</span>;
+    const renderCoord = (x, y) => monoText(`(${x}, ${y})`);
+
+    return (
+      <div style={{height: 90, display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
+        <div style={{textAlign: 'center'}}>{monoText(x2 - x1)}</div>
+        <div style={{display: 'flex', alignItems: 'center', height: '100%', gap: 8}}>
+          <div>{monoText(y2 - y1)}</div>
+          <div className={styles.selectedElemBoxModel}>
+            <span style={{position: 'absolute', left: 4, top: 4}}>{renderCoord(x1, y1)}</span>
+            <span style={{position: 'absolute', right: 4, top: 4}}>{renderCoord(x2, y1)}</span>
+            <span style={{position: 'absolute', left: 4, bottom: 4}}>{renderCoord(x1, y2)}</span>
+            <span style={{position: 'absolute', right: 4, bottom: 4}}>{renderCoord(x2, y2)}</span>
+            <span
+              style={{
+                position: 'absolute',
+                left: '50%',
+                top: '50%',
+                transform: 'translate(-50%, -50%)',
+              }}
+            >
+              {renderCoord(xMiddle, yMiddle)}
+            </span>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <Card
       title={
@@ -198,28 +312,7 @@ const SelectedElement = (props) => {
         </Flex>
       }
       className={styles.selectedElementCard}
-      extra={
-        <span>
-          <Tooltip title={t('Copy Attributes to Clipboard')}>
-            <Button
-              type="text"
-              disabled={isDisabled}
-              id="btnCopyAttributes"
-              icon={<IconFiles size={18} />}
-              onClick={() => copyToClipboard(JSON.stringify(dataSource))}
-            />
-          </Tooltip>
-          <Tooltip title={t('Download Screenshot')}>
-            <Button
-              type="text"
-              disabled={isDisabled}
-              icon={<IconDownload size={18} />}
-              id="btnDownloadElemScreenshot"
-              onClick={() => downloadElementScreenshot(selectedElementId)}
-            />
-          </Tooltip>
-        </span>
-      }
+      extra={actionBar()}
     >
       <Space className={inspectorStyles.spaceContainer} orientation="vertical" size="middle">
         {showSnapshotMaxDepthReachedMessage()}
@@ -230,60 +323,7 @@ const SelectedElement = (props) => {
             </Col>
           </Row>
         )}
-        <Row justify="center" type={ROW.FLEX} align="middle" className={styles.selectedElemActions}>
-          <Tooltip title={t('Tap')}>
-            <Button
-              disabled={isDisabled}
-              icon={<IconFocus2 size={18} />}
-              loading={tapButtonLoadingState}
-              id="btnTapElement"
-              onClick={() =>
-                applyClientMethod({methodName: 'elementClick', elementId: selectedElementId})
-              }
-            />
-          </Tooltip>
-          <Space.Compact className={styles.elementKeyInputActions}>
-            <Input
-              className={styles.elementKeyInput}
-              disabled={isDisabled}
-              placeholder={t('Enter Keys to Send')}
-              allowClear={true}
-              onChange={(e) => (sendKeysRef.current = e.target.value)}
-            />
-            <Tooltip title={t('Send Keys')}>
-              <Button
-                disabled={isDisabled}
-                id="btnSendKeysToElement"
-                icon={<IconSend2 size={18} />}
-                onClick={() =>
-                  applyClientMethod({
-                    methodName: 'elementSendKeys',
-                    elementId: selectedElementId,
-                    args: [sendKeysRef.current || ''],
-                  })
-                }
-              />
-            </Tooltip>
-            <Tooltip title={t('Clear')}>
-              <Button
-                disabled={isDisabled}
-                id="btnClearElement"
-                icon={<IconEraser size={18} />}
-                onClick={() =>
-                  applyClientMethod({methodName: 'elementClear', elementId: selectedElementId})
-                }
-              />
-            </Tooltip>
-          </Space.Compact>
-          <Tooltip title={t('Get Timing')}>
-            <Button
-              disabled={isDisabled}
-              id="btnGetTiming"
-              icon={<IconStopwatch size={18} />}
-              onClick={() => getFindElementsTimes(findDataSource)}
-            />
-          </Tooltip>
-        </Row>
+        {elementActions()}
         {findDataSource.length > 0 && (
           <Spin spinning={isFindingElementsTimes}>
             <Row className={styles.selectedElemTableWrapper}>
@@ -300,6 +340,7 @@ const SelectedElement = (props) => {
         {currentContext === NATIVE_APP && showXpathWarning && (
           <Alert title={t('usingXPathNotRecommended')} type={ALERT.WARNING} showIcon />
         )}
+        {dataSource.length > 0 && showBoxModel()}
         {dataSource.length > 0 && (
           <Row className={styles.selectedElemTableWrapper}>
             <Table

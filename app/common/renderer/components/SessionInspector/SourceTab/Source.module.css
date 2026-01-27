@@ -44,6 +44,14 @@
   width: 100%;
 }
 
+.selectedElemBoxModel {
+  position: relative;
+  flex: 1;
+  height: 70px;
+  border: 1px dashed var(--ant-blue-6);
+  background-color: var(--ant-blue-1);
+}
+
 .sourceSearchHighlight {
   background-color: #ffeb3b;
   border-radius: 2px;
