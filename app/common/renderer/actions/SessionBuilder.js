@@ -19,7 +19,7 @@ import {DEFAULT_SERVER_PROPS} from '../constants/webdriver.js';
 import i18n from '../i18next.js';
 import WDSessionStarter from '../lib/appium/session-starter.js';
 import {VENDOR_MAP} from '../lib/vendor/map.js';
-import {getSetting, ipcRenderer, setSetting} from '../polyfills.js';
+import {getSetting, loadSessionFileIfOpened, setSetting} from '../polyfills.js';
 import {
   fetchSessionInformation,
   formatSeleniumGridSessions,
@@ -610,12 +610,15 @@ export function setSavedServerParams() {
  */
 export function initFromSessionFile() {
   return async (dispatch, getState) => {
-    const lastArg = process.argv[process.argv.length - 1];
-    if (!lastArg?.startsWith('filename=')) {
+    let sessionFileString;
+    try {
+      sessionFileString = await loadSessionFileIfOpened();
+    } catch (err) {
+      log.warn(`Error loading session file on startup: ${err.message}`);
+    }
+    if (!sessionFileString) {
       return null;
     }
-    const filePath = lastArg.split('=')[1];
-    const sessionFileString = await ipcRenderer.invoke('sessionfile:open', filePath);
     const sessionJSON = parseAndValidateSessionFileString(sessionFileString);
     if (sessionJSON) {
       dispatch({type: SET_STATE_FROM_FILE, sessionJSON});

@@ -1,6 +1,3 @@
-import i18NextBackend from 'i18next-chained-backend';
-import HttpApi from 'i18next-http-backend';
-import LocalStorageBackend from 'i18next-localstorage-backend';
 import _ from 'lodash';
 
 // Adjust locales path depending on Vite base (web vs plugin)
@@ -12,26 +9,10 @@ const localesPath =
     ? '/locales' // 'public' folder contents are served at '/'
     : `..${vitePath}locales`; // from 'dist-browser/assets/'
 
-const i18NextBackendOptions = {
-  backends: [LocalStorageBackend, HttpApi],
-  backendOptions: [
-    {},
-    {
-      loadPath: `${localesPath}/{{lng}}/{{ns}}.json`,
-    },
-  ],
-};
-
-const browserUtils = {
-  openLink: (url) => window.open(url, ''),
-  setTheme: () => {},
-  updateLanguage: () => {},
-  ipcRenderer: {
-    on: (evt) => {
-      console.warn(`Cannot listen for IPC event ${evt} in browser context`); // eslint-disable-line no-console
-    },
-  },
-};
+const openLink = (url) => window.open(url, '');
+const setTheme = () => {}; // only relevant in Electron build
+const updateLanguage = () => {}; // only relevant in Electron build
+const loadSessionFileIfOpened = () => null; // only relevant in Electron build
 
 class BrowserSettings {
   has(key) {
@@ -48,14 +29,5 @@ class BrowserSettings {
 }
 
 const settings = new BrowserSettings();
-const {openLink, setTheme, ipcRenderer, updateLanguage} = browserUtils;
 
-export {
-  i18NextBackend,
-  i18NextBackendOptions,
-  ipcRenderer,
-  openLink,
-  setTheme,
-  settings,
-  updateLanguage,
-};
+export {loadSessionFileIfOpened, localesPath, openLink, setTheme, settings, updateLanguage};

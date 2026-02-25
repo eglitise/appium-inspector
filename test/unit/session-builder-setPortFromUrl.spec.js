@@ -24,20 +24,8 @@ vi.mock('../../app/common/renderer/polyfills.js', () => ({
   openLink: vi.fn(),
   setTheme: vi.fn(),
   updateLanguage: vi.fn(),
-  ipcRenderer: {
-    on: vi.fn(),
-    invoke: vi.fn(),
-    send: vi.fn(),
-  },
-  i18NextBackend: {
-    type: 'backend',
-    init: vi.fn(),
-    read: vi.fn(),
-  },
-  i18NextBackendOptions: {
-    backends: [],
-    backendOptions: [],
-  },
+  localesPath: '',
+  loadSessionFileIfOpened: vi.fn().mockResolvedValue(null),
 }));
 
 describe('SessionBuilder actions', function () {
