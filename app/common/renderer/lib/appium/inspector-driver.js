@@ -37,6 +37,13 @@ class WebdriverUnknownError extends Error {
  * with additional Inspector-specific handling
  */
 export default class InspectorDriver {
+  constructor(driver) {
+    this.driver = driver;
+    this.elementCache = {};
+    this.elVarCount = 0;
+    this.elArrayVarCount = 0;
+  }
+
   static instance(driver) {
     _instance ??= new this(driver);
     return _instance;
@@ -44,13 +51,6 @@ export default class InspectorDriver {
 
   static clearInstance() {
     _instance = null;
-  }
-
-  constructor(driver) {
-    this.driver = driver;
-    this.elementCache = {};
-    this.elVarCount = 0;
-    this.elArrayVarCount = 0;
   }
 
   async run(params) {
