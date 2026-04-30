@@ -12,6 +12,11 @@ export const copyToClipboard = (text) => navigator.clipboard.writeText(text);
  */
 export const getRandomId = () => crypto.getRandomValues(new Uint32Array(3)).join('-');
 
+/**
+ * Adds vendor prefixes to capabilities that don't have them.
+ * @param {Array} caps - The array of capabilities
+ * @returns {Array<Object>} - The array of capabilities with vendor prefixes added
+ */
 export function addVendorPrefixes(caps) {
   return caps.map((cap) => {
     // if we don't have a valid unprefixed cap or a cap with an existing prefix, update it
@@ -26,21 +31,37 @@ export function addVendorPrefixes(caps) {
   });
 }
 
+/**
+ * Converts pixels to a percentage of the total value (width/height).
+ * @param {number} px - The pixel value to convert
+ * @param {number} maxPixels - The total value (width/height) in pixels
+ * @returns {number} - The percentage value
+ */
 export function pixelsToPercentage(px, maxPixels) {
   if (!isNaN(px)) {
     return parseFloat(((px / maxPixels) * 100).toFixed(1), 10);
   }
 }
 
+/**
+ * Converts a percentage to pixels based on the total value (width/height).
+ * @param {number} pct - The percentage value to convert
+ * @param {number} maxPixels - The total value (width/height) in pixels
+ * @returns {number} - The pixel value
+ */
 export function percentageToPixels(pct, maxPixels) {
   if (!isNaN(pct)) {
     return Math.round(maxPixels * (pct / 100));
   }
 }
 
-// Extracts element coordinates from its properties.
-// Depending on the platform, this is contained either in the 'bounds' property,
-// or the 'x'/'y'/'width'/'height' properties
+/**
+ * Parses coordinates from an element's attributes.
+ * Depending on the platform, this is contained either in the 'bounds' property,
+ * or the 'x'/'y'/'width'/'height' properties
+ * @param {Object} element - The element object
+ * @returns {Object} - The parsed coordinates
+ */
 export function parseCoordinates(element) {
   const {bounds, x, y, width, height} = element.attributes || {};
 

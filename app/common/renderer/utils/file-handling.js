@@ -1,3 +1,8 @@
+/**
+ * Downloads a file from a given URL.
+ * @param {string} href - The href string of the file type and data
+ * @param {string} filename - The name of the file to save as
+ */
 export function downloadFile(href, filename) {
   let element = document.createElement('a');
   element.setAttribute('href', href);
@@ -10,6 +15,11 @@ export function downloadFile(href, filename) {
   document.body.removeChild(element);
 }
 
+/**
+ * Reads text from a list of uploaded files.
+ * @param {RcFile[]} fileList - The list of files to read
+ * @returns {Promise<Array>} - A promise resolving to an array of file contents
+ */
 export async function readTextFromUploadedFiles(fileList) {
   const fileReaderPromise = fileList.map((file) => {
     const reader = new FileReader();

@@ -79,7 +79,14 @@ export const getSessionInfo = (session, serverType) => {
   };
 };
 
-// Make a session-related HTTP GET request to the provided Appium server URL
+/**
+ * Fetches information about a specific session from the Appium server.
+ * @param {Object} opts - Request options
+ * @param {string} opts.url - The URL of the session to fetch
+ * @param {Object} opts.headers - The headers for the request
+ * @param {any} opts.params - Additional parameters for the request
+ * @returns {Promise<Object>} - A promise resolving to the session information
+ */
 export async function fetchSessionInformation({url, headers, ...params}) {
   return await ky(url, {
     headers: {
@@ -90,11 +97,15 @@ export async function fetchSessionInformation({url, headers, ...params}) {
   }).json();
 }
 
+/**
+ * Selenium Grid returns a more complex structure than Appium:
+ * it can have multiple nodes, each with multiple slots, which can then have a session.
+ * We extract any session details from this structure and package it into
+ * the same format returned by Appium
+ * @param {Object} res - The response from the Selenium Grid session endpoint
+ * @returns {Array<Object>} - An array of formatted session objects
+ */
 export function formatSeleniumGridSessions(res) {
-  // Selenium Grid returns a more complex structure than Appium:
-  // it can have multiple nodes, each with multiple slots, which can then have a session.
-  // We extract any session details from this structure and package it into
-  // the same format returned by Appium
   const formattedGridSessions = [];
   const content = res.value ?? {};
   const nodes = content.nodes ?? [];
