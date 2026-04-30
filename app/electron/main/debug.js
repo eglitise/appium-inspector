@@ -8,16 +8,6 @@ import {
 
 const EXTENSIONS_TO_INSTALL = [REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS];
 
-// These console.log wrappers are used for better visual separation from other logs
-
-function logEmptyLine() {
-  console.log(''); // eslint-disable-line no-console
-}
-
-function logWithExtPrefix(textString) {
-  console.log(`[🧩 Extensions 🧩] ${textString}`); // eslint-disable-line no-console
-}
-
 export async function installExtensions() {
   const opts = {
     forceDownload: !!process.env.UPGRADE_EXTENSIONS,
@@ -43,4 +33,14 @@ export async function installExtensions() {
     logWithExtPrefix(`Error installing extensions: ${e.message}`);
   }
   logEmptyLine();
+}
+
+// These console.log wrappers are used for better visual separation from other logs
+
+function logEmptyLine() {
+  console.log(''); // eslint-disable-line no-console
+}
+
+function logWithExtPrefix(textString) {
+  console.log(`[🧩 Extensions 🧩] ${textString}`); // eslint-disable-line no-console
 }
