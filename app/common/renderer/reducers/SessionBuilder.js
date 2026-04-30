@@ -84,6 +84,12 @@ const INITIAL_STATE = {
 
 let nextState;
 
+/**
+ * Reducer for handling session builder actions.
+ * @param {Object} state - The current state
+ * @param {Object} action - The action to handle
+ * @returns {Object} - The new state
+ */
 export default function builder(state = INITIAL_STATE, action) {
   switch (action.type) {
     case NEW_SESSION_REQUESTED:

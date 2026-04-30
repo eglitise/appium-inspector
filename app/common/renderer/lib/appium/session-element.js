@@ -49,6 +49,12 @@ class WDSessionElement {
   }
 }
 
+/**
+ * Creates a WDSessionElement instance from a WebDriver response.
+ * @param {Object} res - The findElement method response
+ * @param {Object} parent - The parent element
+ * @returns {WDSessionElement} - The created element instance
+ */
 export function getElementFromResponse(res, parent) {
   const elementKey = res[W3C_ELEMENT_KEY] ? W3C_ELEMENT_KEY : JWP_ELEMENT_KEY;
 
