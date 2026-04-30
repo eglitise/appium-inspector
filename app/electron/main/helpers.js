@@ -7,6 +7,10 @@ import i18n from './i18next.js';
 
 export const isDev = process.env.NODE_ENV === 'development';
 
+/**
+ * Set up IPC listeners for handling various events.
+ * @param {() => string | null} getOpenFilePath - A function to get the path of the currently open file
+ */
 export function setupIPCListeners(getOpenFilePath) {
   ipcMain.handle('settings:has', async (_evt, key) => await settings.has(key));
   ipcMain.handle('settings:set', async (_evt, key, value) => await settings.set(key, value));

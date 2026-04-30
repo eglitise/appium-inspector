@@ -12,6 +12,10 @@ const CROWDIN_URL = 'https://crowdin.com/project/appium-desktop';
 
 const separator = {type: 'separator'};
 
+/**
+ * Rebuild the application menus based on the current platform and window.
+ * @param {BrowserWindow} mainWindow The main application window
+ */
 export function rebuildMenus(mainWindow) {
   const isMac = process.platform === 'darwin';
 

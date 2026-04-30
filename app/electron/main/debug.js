@@ -8,6 +8,9 @@ import {
 
 const EXTENSIONS_TO_INSTALL = [REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS];
 
+/**
+ * Install development extensions for the Electron app, with an option to force re-download.
+ */
 export async function installExtensions() {
   const opts = {
     forceDownload: !!process.env.UPGRADE_EXTENSIONS,

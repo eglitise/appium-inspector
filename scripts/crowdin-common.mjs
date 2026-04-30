@@ -17,6 +17,12 @@ export const ORIGINAL_LANGUAGE = 'en';
 const USER_AGENT = 'Appium Inspector CI';
 const API_ROOT = 'https://api.crowdin.com/api/v2';
 
+/**
+ * Perform an API request to Crowdin, with the given suffix and options.
+ * @param {string} suffix The API endpoint suffix, e.g. '/translations' or '/files'.
+ * @param {object} opts Options for the API request
+ * @returns {Promise<any>} The JSON response from the API request
+ */
 export async function performApiRequest(suffix = '', opts = {}) {
   const {method = 'GET', payload, headers, isProjectSpecific = true} = opts;
   const url = isProjectSpecific

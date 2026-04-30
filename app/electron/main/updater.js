@@ -53,6 +53,9 @@ autoUpdater.on('update-downloaded', async ({releaseName}) => {
   }
 });
 
+/**
+ * Check for updates and prompt the user to download and install if an update is available.
+ */
 export function checkForUpdates() {
   autoUpdater.checkForUpdates();
 }

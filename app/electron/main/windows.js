@@ -18,6 +18,9 @@ const pathLoadMethod = isDev ? 'loadURL' : 'loadFile';
 
 let mainWindow = null;
 
+/**
+ * Set up the main application window, including the splash screen and IPC listeners.
+ */
 export async function setupMainWindow() {
   const preferredTheme = await settings.get(PREFERRED_THEME);
   const isDarkTheme =
@@ -70,6 +73,9 @@ export async function setupMainWindow() {
   });
 }
 
+/**
+ * Launch a new session window. This is used when the user clicks "New Session" from the app menu
+ */
 export function launchNewSessionWindow() {
   const win = buildSessionWindow();
   win[pathLoadMethod](mainPath);
